@@ -105,7 +105,7 @@ add
 ```
 test {
     if (project.hasProperty('aotLibrary') && Boolean.parseBoolean(aotLibrary)) {
-        jvmArgs '-XX:AOTLibrary=./build/aotc/aotLibrary.so'
+        jvmArgs = ['-XX:AOTLibrary=./build/aotc/aotLibrary.so', '-XX:+UnlockDiagnosticVMOptions', '-XX:+UseAOTStrictLoading']
     }
 }
 ```
