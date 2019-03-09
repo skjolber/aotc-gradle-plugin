@@ -1,0 +1,68 @@
+plugins {
+	id "com.gradle.plugin-publish" version "0.10.1"
+	id 'java-gradle-plugin'
+}
+
+apply plugin: 'maven-publish'
+apply from: "$projectDir/gradle/functional-test.gradle"
+
+gradlePlugin {
+	plugins {
+		aotcPlugin {
+			id = 'com.github.skjolber.aotc'
+			implementationClass = 'com.github.skjolber.aotc.gradle.AotcPlugin'
+		}
+	}
+}
+
+dependencies {
+	compile gradleApi()
+	compile ("com.google.guava:guava:${guavaVersion}")
+	compile ("commons-lang:commons-lang:${apacheCommonsLangVersion}")
+
+	testCompile("commons-io:commons-io:${apacheCommonsIoVersion}")
+	testCompile gradleTestKit()
+		
+	// dependencies for compiling funct tests:
+	testCompile("com.fasterxml.jackson.core:jackson-databind:2.9.8")		
+}
+
+pluginBundle {
+	website = 'https://github.com/skjolber/aotc'
+	vcsUrl = 'https://github.com/skjolber/aotc'
+	description = 'Library supporting use of Ahead-of-Time Compilation.'
+	tags = ['java', 'aot']
+
+	plugins {
+		aotcPlugin {
+			displayName = 'aotc-gradle-plugin'
+		}
+	}
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}    
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            artifact sourcesJar
+            artifact javadocJar
+        }
+    }
+}
+
+ 

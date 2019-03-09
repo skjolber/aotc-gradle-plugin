@@ -1,0 +1,72 @@
+buildscript{
+    repositories{
+        mavenCentral()
+		mavenLocal()
+		
+	    dependencies {
+	        classpath 'com.github.skjolber.aotc:plugin:1.0.1-SNAPSHOT'
+	    }
+    }
+}
+
+plugins {
+	id 'java'
+    id 'com.github.ben-manes.versions' version '0.20.0'
+    id 'org.owasp.dependencycheck' version '4.0.2'
+    id "com.github.spotbugs" version "1.6.10"
+    id "eclipse"
+    id "idea"
+}
+
+apply plugin: 'com.github.skjolber.aotc'
+
+group='com.github.skjolber.aotc.example'
+version='1.0.0-SNAPSHOT'
+
+ext {
+    junitPlatformVersion = '1.4.0'
+    junitJupiterVersion  = '5.4.0'
+    googleTruthVersion   = '0.42'
+}
+
+eclipse {
+    classpath {
+        downloadSources = true
+        downloadJavadoc = true
+    }
+}
+
+// Tell idea to output to build/classes/main instead of /out/
+idea {
+    module {
+        outputDir file('build/classes/main')
+        testOutputDir file('build/classes/test')
+    }
+}
+
+test {
+    useJUnitPlatform {
+        includeEngines 'junit-jupiter'
+    }
+
+    reports {
+        html.enabled = true
+    }
+}
+
+dependencies {
+    compile("com.fasterxml.jackson.core:jackson-databind:2.9.8");
+
+    testCompile("org.junit.jupiter:junit-jupiter-api:${junitJupiterVersion}")
+    testRuntime("org.junit.jupiter:junit-jupiter-engine:${junitJupiterVersion}")
+
+    testCompile ("com.google.truth:truth:${googleTruthVersion}")
+    testCompile ("com.google.truth.extensions:truth-java8-extension:${googleTruthVersion}")
+
+}
+
+repositories {
+	mavenLocal()
+	jcenter()
+}
+

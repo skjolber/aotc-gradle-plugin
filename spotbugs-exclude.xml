@@ -1,0 +1,5 @@
+<FindBugsFilter>
+	<Match>
+		<Class name="com.auth0.jwk.ConfigurableUrlJwkProvider" />
+	</Match>
+</FindBugsFilter>

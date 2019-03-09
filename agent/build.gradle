@@ -1,0 +1,45 @@
+
+plugins {
+	id "com.vanniktech.maven.publish" version "0.8.0"
+	id "maven-publish"
+}
+
+dependencies {
+	testCompile("commons-io:commons-io:${apacheCommonsIoVersion}")
+}
+
+jar {
+	manifest {
+		attributes(
+			"Premain-Class": "com.github.skjolber.aotc.agent.PreMain",
+			"Can-Retransform-Classes": "false",
+			"Can-Redefine-Classes": "false"
+		)
+	}
+}
+
+test {
+	jvmArgs = ['-XX:+UnlockDiagnosticVMOptions', '-XX:+LogTouchedMethods']
+}
+
+test.finalizedBy(publishToMavenLocal)
+
+mavenPublish {
+  targets {
+    uploadArchives {
+      releaseRepositoryUrl = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+      snapshotRepositoryUrl = "https://oss.sonatype.org/content/repositories/snapshots/"
+      repositoryUsername = "${oss_username}"
+      repositoryPassword = "${oss_password}"
+    }
+  }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+}
+    

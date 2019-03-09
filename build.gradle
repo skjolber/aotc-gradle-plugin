@@ -1,0 +1,131 @@
+plugins {
+    id 'com.jfrog.artifactory' version '4.9.1' apply false
+    id 'com.github.ben-manes.versions' version '0.20.0' apply false
+    id 'org.owasp.dependencycheck' version '4.0.2' apply false
+    id "com.github.spotbugs" version "1.6.10" apply false
+}
+
+// Split projects into buildable: examples and libraries (including frameworks). 
+// This omits 'wrapper' directories. See also settings.gradle
+ 
+def buildProjects() {
+    subprojects.findAll { new File(it.projectDir, 'build.gradle').file  }
+}
+
+def exampleProjects() {
+    buildProjects().findAll { it.name.endsWith("-example")  }
+}
+
+def libraryProjects() {
+    buildProjects().findAll { !exampleProjects().contains(it)  }
+}
+
+configure(exampleProjects()) {
+    apply plugin: 'java'
+}
+
+configure(libraryProjects()) {
+    apply plugin: 'java-library'
+}
+
+configure(buildProjects()) {
+    apply plugin: 'com.jfrog.artifactory'
+    apply plugin: 'com.github.ben-manes.versions'
+    apply plugin: 'org.owasp.dependencycheck'
+    //apply plugin: 'com.github.spotbugs'
+    
+	sourceCompatibility = JavaVersion.VERSION_11
+	targetCompatibility = JavaVersion.VERSION_11
+    
+    ext {
+        junitPlatformVersion = '1.4.0'
+        junitJupiterVersion  = '5.4.0'
+        googleTruthVersion   = '0.42'
+        asmVersion           = '7.0'
+        apacheCommonsIoVersion = '2.6'
+        apacheCommonsLangVersion = '2.6'
+        guavaVersion         = '27.0.1-jre'
+    }
+    
+    test {
+        useJUnitPlatform {
+            includeEngines 'junit-jupiter'
+        }
+
+	    filter {
+	        exclude '**/module-info.class'
+	    }
+        
+        reports {
+            html.enabled = true
+        }
+    }
+
+    repositories {
+        mavenLocal()
+		mavenCentral()
+    }
+
+    dependencies {
+        testImplementation("org.junit.jupiter:junit-jupiter-api:${junitJupiterVersion}")
+        testImplementation("org.junit.jupiter:junit-jupiter-engine:${junitJupiterVersion}")
+
+        testImplementation ("com.google.truth:truth:${googleTruthVersion}")
+        testImplementation ("com.google.truth.extensions:truth-java8-extension:${googleTruthVersion}")
+    }
+    
+    /*
+    // To generate an HTML report instead of XML
+    tasks.withType(com.github.spotbugs.SpotBugsTask) {
+        reports {
+            xml.enabled = false
+            html.enabled = true
+        }
+    }
+    */
+    
+    // OWASP Dependency Check settings
+    dependencyCheck {
+        failOnError = true
+        analyzedTypes = ['jar'] 
+        format = 'ALL' 
+        failBuildOnCVSS = 7 // high
+        suppressionFiles = ["$projectDir/dependencycheck-base-suppression.xml", "$rootDir/dependencycheck-root-suppression.xml"] // specify a list of known issues which contain false-positives
+
+        data {
+            directory = System.properties['user.home'] + "/.owasp-dependency-plugin"
+        }
+    }
+    /*
+    spotbugs {
+		excludeFilter = file("$rootDir/spotbugs-exclude.xml")
+	}
+	*/
+ }
+
+allprojects {
+    apply plugin: 'eclipse'
+    apply plugin: 'idea'
+
+    eclipse {
+        classpath {
+            downloadSources = true
+            downloadJavadoc = true
+        }
+    }
+
+    // Tell idea to output to build/classes/main instead of /out/
+    idea {
+        module {
+            outputDir file('build/classes/main')
+            testOutputDir file('build/classes/test')
+        }
+    }
+}
+
+repositories {
+	mavenLocal()
+	mavenCentral()
+}
+
+

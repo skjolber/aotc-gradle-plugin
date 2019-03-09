@@ -1,0 +1,33 @@
+plugins {
+	id 'java'
+	id 'com.github.skjolber.aotc'
+}
+
+sourceCompatibility = 1.8
+
+ext {
+    junitPlatformVersion = '1.4.0'
+    junitJupiterVersion  = '5.4.0'
+    
+    googleTruthVersion   = '0.42'
+	apacheCommonsVersion = '2.6'
+}
+
+dependencies {
+	compile("commons-io:commons-io:${apacheCommonsVersion}")
+	compile("com.fasterxml.jackson.core:jackson-databind:2.9.8")
+
+    testCompile("org.junit.jupiter:junit-jupiter-api:${junitJupiterVersion}")
+    testRuntime("org.junit.jupiter:junit-jupiter-engine:${junitJupiterVersion}")
+
+    // testCompile('com.github.skjolber.jaotc:jaotc-agent:0.0.1-SNAPSHOT')
+    testCompile("com.google.truth:truth:${googleTruthVersion}")
+    testCompile("com.google.truth.extensions:truth-java8-extension:${googleTruthVersion}")
+}
+
+// In this section you declare where to find the dependencies of your project
+repositories {
+	mavenLocal()
+    jcenter()
+}
+
