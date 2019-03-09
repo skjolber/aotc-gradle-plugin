@@ -1,14 +1,15 @@
+/*
 buildscript{
     repositories{
         mavenCentral()
 		mavenLocal()
 		
 	    dependencies {
-	        classpath 'com.github.skjolber.aotc:plugin:1.0.1-SNAPSHOT'
+	        classpath 'com.github.skjolber.aotc:plugin:1.0.0'
 	    }
     }
 }
-
+*/
 plugins {
 	id 'java'
     id 'com.github.ben-manes.versions' version '0.20.0'
@@ -16,9 +17,10 @@ plugins {
     id "com.github.spotbugs" version "1.6.10"
     id "eclipse"
     id "idea"
+    id 'com.github.skjolber.aotc' version '1.0.0'
 }
 
-apply plugin: 'com.github.skjolber.aotc'
+//apply plugin: 'com.github.skjolber.aotc'
 
 group='com.github.skjolber.aotc.example'
 version='1.0.0-SNAPSHOT'
@@ -26,7 +28,7 @@ version='1.0.0-SNAPSHOT'
 ext {
     junitPlatformVersion = '1.4.0'
     junitJupiterVersion  = '5.4.0'
-    googleTruthVersion   = '0.42'
+    googleTruthVersion   = '0.43'
 }
 
 eclipse {
@@ -52,6 +54,10 @@ test {
     reports {
         html.enabled = true
     }
+    
+    if (project.hasProperty('aotLibrary') && Boolean.parseBoolean(aotLibrary)) {
+        jvmArgs '-XX:AOTLibrary=./build/aotc/aotLibrary.so'
+    }
 }
 
 dependencies {
@@ -66,7 +72,15 @@ dependencies {
 }
 
 repositories {
-	mavenLocal()
+	mavenCentral()
 	jcenter()
 }
 
+aotc {
+    garbageCollector = 'g1' // alternatively 'default' or 'parallel'
+    memory = '1024m' // extra XMX memory for the compilation command
+    tiered = true // tiered compilation
+    additionalCommands = files('exclude.txt') // one or more files for additional compile commands
+    ignoreErrors = true // ignore errors during compilation
+    captureMode = 'mbean' // alternatively 'console' or 'mbean' 
+}

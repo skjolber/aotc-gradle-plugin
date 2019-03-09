@@ -6,9 +6,12 @@ import java.util.concurrent.Callable;
 import org.gradle.api.Action;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
+import org.gradle.api.ProjectEvaluationListener;
+import org.gradle.api.ProjectState;
 import org.gradle.api.Task;
 import org.gradle.api.artifacts.Configuration;
 import org.gradle.api.artifacts.DependencySet;
+import org.gradle.api.tasks.TaskCollection;
 import org.gradle.api.tasks.testing.Test;
 
 public class AotcPlugin implements Plugin<Project> {
@@ -49,17 +52,6 @@ public class AotcPlugin implements Plugin<Project> {
 			task.getAdditionalCommands().setFrom(extension.additionalCommands.getFiles());
 		});
 
-        configureTaskClasspathDefaults(extension, jar);
-		
-        project.getTasks().withType(Test.class).configureEach(new Action<Test>() {
-            @Override
-            public void execute(Test task) {
-            	extension.apply(task, jar);          	
-            	
-            }
-        });
-    	compileCommandsTask.touchedMethodFiles(project.getTasks().withType(Test.class));
-        
         LibraryTask aotcTask = project.getTasks().create("aotcLibrary", LibraryTask.class, (task) -> { 
         	task.getTiered().set(extension.getTiered());
         	task.getMemory().set(extension.getMemory());
@@ -78,20 +70,49 @@ public class AotcPlugin implements Plugin<Project> {
 					);
 		});
 		
-		compileCommandsTask.dependsOn(project.getTasks().findByName("test"));
-		aotcTask.dependsOn(compileCommandsTask);
+        // use project evaluation so that there is test tasks and such when the code runs
+        // alternatively actively apply plugins at the start of the code, i..e
+        // plugins.apply(JavaPlugin.class);
 
-		//finally create a clean task
-		CleanTask cleanTask = project.getTasks().create("aotcClean", CleanTask.class, extension);
-		Task clean = project.getTasks().findByName("clean");
-		clean.dependsOn(cleanTask);
+        project.getGradle().addProjectEvaluationListener(new ProjectEvaluationListener() {
+			
+			@Override
+			public void beforeEvaluate(Project arg0) {
+
+			}
+			
+			@Override
+			public void afterEvaluate(Project arg0, ProjectState arg1) {
+		        configureTaskClasspathDefaults(extension, jar);
+
+		        TaskCollection<Test> testTasks = project.getTasks().withType(Test.class);
+		        
+		        testTasks.configureEach(new Action<Test>() {
+		            @Override
+		            public void execute(Test task) {
+		            	extension.apply(task, jar);          	
+		            	
+		            }
+		        });
+		    	compileCommandsTask.touchedMethodFiles(testTasks);
+		    	
+				compileCommandsTask.dependsOn(project.getTasks().findByName("test"));
+				
+				//finally create a clean task
+				CleanTask cleanTask = project.getTasks().create("aotcClean", CleanTask.class, extension);
+				Task clean = project.getTasks().findByName("clean");
+				clean.dependsOn(cleanTask);
+			}
+		});        
+        
+		aotcTask.dependsOn(compileCommandsTask);
 	}
 
     private void configureTaskClasspathDefaults(AotcPluginExtension extension, AotcAgentJar agent) {
         Configuration agentConf = project.getConfigurations().create(AGENT_CONFIGURATION_NAME);
         agentConf.setVisible(false);
         agentConf.setTransitive(true);
-        agentConf.setDescription("The Jacoco agent to use to get coverage data.");
+        agentConf.setDescription("The instrumentation agent to use to capture touched methods.");
 
         agent.setAgentConf(agentConf);
         agentConf.defaultDependencies(new Action<DependencySet>() {

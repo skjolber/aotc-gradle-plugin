@@ -40,8 +40,7 @@ configure(buildProjects()) {
     ext {
         junitPlatformVersion = '1.4.0'
         junitJupiterVersion  = '5.4.0'
-        googleTruthVersion   = '0.42'
-        asmVersion           = '7.0'
+        googleTruthVersion   = '0.43'
         apacheCommonsIoVersion = '2.6'
         apacheCommonsLangVersion = '2.6'
         guavaVersion         = '27.0.1-jre'
@@ -59,6 +58,8 @@ configure(buildProjects()) {
         reports {
             html.enabled = true
         }
+        
+        failFast = true
     }
 
     repositories {
