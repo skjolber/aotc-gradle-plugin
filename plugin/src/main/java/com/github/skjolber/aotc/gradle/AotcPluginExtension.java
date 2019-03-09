@@ -24,7 +24,7 @@ public class AotcPluginExtension {
 	
     protected final Project project;
     protected final Property<File> outputDirectory;
-    protected final Property<Boolean> enabled;
+    //protected final Property<Boolean> enabled;
     protected final Property<String> memory;
     protected final Property<String> gc;
     protected final ConfigurableFileCollection additionalCommands;
@@ -37,7 +37,7 @@ public class AotcPluginExtension {
 		this.project = project;
 		
 		outputDirectory = project.getObjects().property(File.class);
-		enabled = project.getObjects().property(Boolean.class);
+		//enabled = project.getObjects().property(Boolean.class);
 		memory = project.getObjects().property(String.class);
 		gc = project.getObjects().property(String.class);
 		
@@ -91,7 +91,7 @@ public class AotcPluginExtension {
     public void setMemory(String xmx) {
     	this.memory.set(xmx);
     }
-    
+    /*
 	@Input
 	public Property<Boolean> getEnabled() {
 		return enabled;
@@ -100,6 +100,7 @@ public class AotcPluginExtension {
 	public void setEnabled(boolean enabled) {
 		this.enabled.set(enabled);
 	}
+	*/
 	
 	@Input
 	public Property<Boolean> getTiered() {

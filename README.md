@@ -19,7 +19,7 @@ Enable plugin using
 
 ```
 plugins {
-    id "com.github.skjolber.aotc" version "1.0.0"
+    id "com.github.skjolber.aotc" version "1.0.1"
 }
 ```
 

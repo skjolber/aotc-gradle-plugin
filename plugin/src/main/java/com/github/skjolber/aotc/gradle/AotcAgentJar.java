@@ -46,7 +46,7 @@ public class AotcAgentJar {
             agentJar = getAgentConf().filter(new Spec<File>() {
                 @Override
                 public boolean isSatisfiedBy(File file) {
-                    return file.getName().equals("agent-" + AotcPlugin.DEFAULT_VERSION + ".jar");
+                    return file.getName().equals("agent-" + AotcPlugin.AGENT_VERSION + ".jar");
                 }
             }).getSingleFile();
         }

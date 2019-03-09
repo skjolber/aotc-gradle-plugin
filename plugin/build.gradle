@@ -15,18 +15,6 @@ gradlePlugin {
 	}
 }
 
-dependencies {
-	compile gradleApi()
-	compile ("com.google.guava:guava:${guavaVersion}")
-	compile ("commons-lang:commons-lang:${apacheCommonsLangVersion}")
-
-	testCompile("commons-io:commons-io:${apacheCommonsIoVersion}")
-	testCompile gradleTestKit()
-		
-	// dependencies for compiling funct tests:
-	testCompile("com.fasterxml.jackson.core:jackson-databind:2.9.8")		
-}
-
 pluginBundle {
 	website = 'https://github.com/skjolber/aotc'
 	vcsUrl = 'https://github.com/skjolber/aotc'
@@ -39,6 +27,19 @@ pluginBundle {
 		}
 	}
 }
+
+dependencies {
+	compile gradleApi()
+	compile ("com.google.guava:guava:${guavaVersion}")
+	compile ("commons-lang:commons-lang:${apacheCommonsLangVersion}")
+
+	testCompile("commons-io:commons-io:${apacheCommonsIoVersion}")
+	testCompile gradleTestKit()
+		
+	// dependencies for compiling funct tests:
+	testCompile("com.fasterxml.jackson.core:jackson-databind:2.9.8")		
+}
+
 
 task sourcesJar(type: Jar, dependsOn: classes) {
     classifier = 'sources'

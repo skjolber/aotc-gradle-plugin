@@ -13,7 +13,7 @@ import org.gradle.api.tasks.testing.Test;
 
 public class AotcPlugin implements Plugin<Project> {
 
-    public static final String DEFAULT_VERSION = "1.0.1-SNAPSHOT";
+    public static final String AGENT_VERSION = "1.0.0";
 
 	private static final String AGENT_CONFIGURATION_NAME = "aotcAgent";
 
@@ -97,7 +97,7 @@ public class AotcPlugin implements Plugin<Project> {
         agentConf.defaultDependencies(new Action<DependencySet>() {
             @Override
             public void execute(DependencySet dependencies) {
-                dependencies.add(project.getDependencies().create("com.github.skjolber.aotc:agent:" + DEFAULT_VERSION));
+                dependencies.add(project.getDependencies().create("com.github.skjolber.aotc:agent:" + AGENT_VERSION));
             }
         });
     }
