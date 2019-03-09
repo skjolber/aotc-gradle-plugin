@@ -16,8 +16,8 @@ gradlePlugin {
 }
 
 pluginBundle {
-	website = 'https://github.com/skjolber/aotc'
-	vcsUrl = 'https://github.com/skjolber/aotc'
+	website = 'https://github.com/skjolber/aotc-gradle-plugin'
+	vcsUrl = 'https://github.com/skjolber/aotc-gradle-plugin'
 	description = 'Library supporting use of Ahead-of-Time Compilation.'
 	tags = ['java', 'aot']
 

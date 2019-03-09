@@ -19,7 +19,7 @@ Enable plugin using
 
 ```
 plugins {
-    id "com.github.skjolber.aotc" version "1.0.1"
+    id "com.github.skjolber.aotc" version "1.0.0"
 }
 ```
 
@@ -130,7 +130,9 @@ Links related to AOT compilation.
  * (JVMLS 2017): Ahead Of Time (AOT) Internals by Vladimir Kozlov and Igor Veresov: [Video](https://www.youtube.com/watch?v=yyDD_KRdQQU&list=PLX8CzqL3ArzXJ2EGftrmz4SzS6NRr6p2n&index=13)
  * [Programmatic jcmd Access](https://www.javacodegeeks.com/2016/05/programmatic-jcmd-access.html)
 
- - 1.0.0: Initial version
+# History
+
+ - 1.0.0: Initial version / MVP
 
 [Apache 2.0]:                      http://www.apache.org/licenses/LICENSE-2.0.html
 [issue-tracker]:                   https://github.com/skjolber/gradle-foss-library-template/issues
