@@ -7,7 +7,7 @@ The plugin facilitates generation of a compiled library for __the code which is 
 
 > Ahead-of-time compilation technically corresponds to doing the JVM Hotspot compilation (also known as __warmup__) during the build process instead of when starting the application. In other words, the application will __hit the ground running__ when starting up.
 
-While it is relatively simple to apply AOT compilation to all your code and dependencies (including the Java base module), this usually produces rather large compiled libraries (in the hundreds of MB range, 1GB for the JDK) which consume unnecessary resources. By using a more targeted approach, this plugin generates smaller compiled libraries. 
+While it is relatively simple to apply AOT compilation to all your code and dependencies (including the Java base module), this usually produces rather large compiled libraries (in the hundreds of MB range, 322MB for the JDK) which consume unnecessary resources. By using a more targeted approach, this plugin generates smaller compiled libraries.
 
 The plugin requires Java 11 or higher and only works on Linux. Works with all libraries of out the box. 
 
