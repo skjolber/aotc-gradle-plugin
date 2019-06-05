@@ -91,7 +91,7 @@ The AOT compiler relies on the new [Graal JIT compiler](https://www.baeldung.com
 -XX:+UnlockExperimentalVMOptions -XX:+EnableJVMCI -XX:+UseJVMCICompiler
 ```
 
-Some people are running the new Graal JIT compiler in production (see links). The natural step after AOT compilation is going to [GraalVM] for a fully native runtime with its Substrate VM. GraalVM is however not yet production ready and in addition many libraries will need some adjustments to work 100% as well.
+Some people are running the new Graal JIT compiler in production (see links). The natural step after AOT compilation is going to [GraalVM] for a fully native runtime with its Substrate VM. GraalVM is however not yet production ready for Java 11 and in addition many libraries will need some adjustments to work 100% as well.
 
 ### Verifying compiled library
 For re-running the unit test with the compiled library enabled, for example after first running
