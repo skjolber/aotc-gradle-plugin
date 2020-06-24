@@ -1,7 +1,7 @@
 plugins {
     id 'com.jfrog.artifactory' version '4.9.1' apply false
     id 'com.github.ben-manes.versions' version '0.20.0' apply false
-    id 'org.owasp.dependencycheck' version '4.0.2' apply false
+    id 'org.owasp.dependencycheck' version '5.3.2.1' apply false
     id "com.github.spotbugs" version "1.6.10" apply false
 }
 
@@ -38,12 +38,13 @@ configure(buildProjects()) {
 	targetCompatibility = JavaVersion.VERSION_11
     
     ext {
-        junitPlatformVersion = '1.4.0'
-        junitJupiterVersion  = '5.4.0'
-        googleTruthVersion   = '0.43'
+        junitPlatformVersion = '1.6.2'
+        junitJupiterVersion  = '5.6.2'
+        googleTruthVersion   = '1.0.1'
         apacheCommonsIoVersion = '2.6'
         apacheCommonsLangVersion = '2.6'
-        guavaVersion         = '27.0.1-jre'
+        guavaVersion         = '29.0-jre'
+        jacksonVersion       = '2.11.0'
     }
     
     test {

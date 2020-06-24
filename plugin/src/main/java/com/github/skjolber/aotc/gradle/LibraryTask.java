@@ -13,6 +13,7 @@ import org.gradle.api.provider.Property;
 import org.gradle.api.provider.Provider;
 import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.InputFile;
+import org.gradle.api.tasks.Optional;
 import org.gradle.api.tasks.OutputFile;
 import org.gradle.api.tasks.SourceSet;
 import org.gradle.api.tasks.TaskAction;
@@ -200,6 +201,8 @@ public class LibraryTask extends ConventionTask implements CommandLineArgumentPr
     	this.garbageCollector.set(xmx);
     }
     
+	@Input
+	@Optional
     public Property<String> getMemory() {
 		return memory;
 	}

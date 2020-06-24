@@ -1,3 +1,5 @@
+
+// uncomment for local testing
 /*
 buildscript{
     repositories{
@@ -5,30 +7,31 @@ buildscript{
 		mavenLocal()
 		
 	    dependencies {
-	        classpath 'com.github.skjolber.aotc:plugin:1.0.0'
+            // uncomment for local testing
+	        classpath 'com.github.skjolber.aotc:plugin:1.0.1'
 	    }
     }
 }
 */
+
 plugins {
 	id 'java'
-    id 'com.github.ben-manes.versions' version '0.20.0'
-    id 'org.owasp.dependencycheck' version '4.0.2'
-    id "com.github.spotbugs" version "1.6.10"
     id "eclipse"
     id "idea"
-    id 'com.github.skjolber.aotc' version '1.0.0'
+    id 'com.github.skjolber.aotc' version '1.0.1'
 }
 
-//apply plugin: 'com.github.skjolber.aotc'
+// uncomment for local testing
+// apply plugin: 'com.github.skjolber.aotc'
 
 group='com.github.skjolber.aotc.example'
-version='1.0.0-SNAPSHOT'
+version='1.0.x-SNAPSHOT'
 
 ext {
-    junitPlatformVersion = '1.4.0'
-    junitJupiterVersion  = '5.4.0'
-    googleTruthVersion   = '0.43'
+    junitPlatformVersion = '1.6.2'
+    junitJupiterVersion  = '5.6.2'
+    googleTruthVersion   = '1.0.1'
+    jacksonVersion       = '2.11.0'
 }
 
 eclipse {
@@ -61,7 +64,7 @@ test {
 }
 
 dependencies {
-    compile("com.fasterxml.jackson.core:jackson-databind:2.9.8");
+    compile("com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}");
 
     testCompile("org.junit.jupiter:junit-jupiter-api:${junitJupiterVersion}")
     testRuntime("org.junit.jupiter:junit-jupiter-engine:${junitJupiterVersion}")
@@ -82,5 +85,5 @@ aotc {
     tiered = true // tiered compilation
     additionalCommands = files('exclude.txt') // one or more files for additional compile commands
     ignoreErrors = true // ignore errors during compilation
-    captureMode = 'mbean' // alternatively 'console' or 'mbean' 
+    captureMode = 'console' // alternatively 'console' or 'mbean'
 }

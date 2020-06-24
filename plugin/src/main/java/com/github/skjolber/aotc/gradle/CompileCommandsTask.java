@@ -181,6 +181,7 @@ public class CompileCommandsTask extends DefaultTask {
     }
     
 	@InputFiles
+	@PathSensitive(PathSensitivity.NONE)
 	public ConfigurableFileCollection getAdditionalCommands() {
 		return additionalCommands;
 	}

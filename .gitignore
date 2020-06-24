@@ -2,6 +2,7 @@
 build/
 out/
 !gradle/wrapper/gradle-wrapper.jar
+.attach_pid*
 
 ### STS ###
 .apt_generated

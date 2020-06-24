@@ -19,7 +19,7 @@ Enable plugin using
 
 ```
 plugins {
-    id "com.github.skjolber.aotc" version "1.0.0"
+    id "com.github.skjolber.aotc" version "1.0.1"
 }
 ```
 
@@ -132,6 +132,7 @@ Links related to AOT compilation.
 
 # History
 
+ - 1.0.1: Maintainance release
  - 1.0.0: Initial version / MVP
 
 [Apache 2.0]:                      http://www.apache.org/licenses/LICENSE-2.0.html

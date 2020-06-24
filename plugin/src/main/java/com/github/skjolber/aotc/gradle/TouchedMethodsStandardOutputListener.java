@@ -57,6 +57,8 @@ public class TouchedMethodsStandardOutputListener implements StandardOutputListe
 						if(writer != null) {
 							writer.write(string + "\n");
 							writer.flush();
+							
+							// it is possible to add some ansi codes here to reduce the visible output, but it will be inaccurate
 						}
 					}
 				}
